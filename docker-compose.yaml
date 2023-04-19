@@ -1,0 +1,23 @@
+version: '3'
+services:
+  web:
+    build: ./docker/web/.
+    container_name: web
+    volumes:
+      - ./app:/app
+    ports:
+      - 80:3000
+    tty: true
+  db:
+    build: ./docker/db/.
+    container_name: db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      TZ: 'UTC'
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - ./docker/db/data:/var/lib/mysql
+      - ./docker/db/conf.d:/etc/mysql/cond.d
+      - ./docker/db/initdb.d:/docker-entrypoint-initdb.d
+    ports:
+      - 3306:3306
