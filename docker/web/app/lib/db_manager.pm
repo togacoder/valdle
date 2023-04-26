@@ -27,4 +27,14 @@ sub get_all {
     return $arrayref;
 }
 
+sub get_all_id {
+    my $dbh = &init();
+    my $sth = $dbh->prepare('SELECT id FROM valdle_db.character ORDER BY id');
+    $sth->execute();
+    my $arrayref = $sth->fetchall_arrayref;
+    $sth->finish;
+    undef $sth;
+    $dbh->disconnect;
+    return $arrayref;
+}
 1;

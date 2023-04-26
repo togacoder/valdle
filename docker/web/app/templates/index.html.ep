@@ -6,6 +6,7 @@
 </head>
 <body>
     <h1>valdle</h1>
-    <a href="list">一覧</a>
+    <a href="list">一覧</a><br>
+    <a href="game">ゲーム</a>
 </body>
 </html>
