@@ -14,5 +14,6 @@ CREATE TABLE IF NOT EXISTS `valdle_db`.`character` (
     `position`      VARCHAR(256),
     `attribute`     VARCHAR(256),
     `action_name`   VARCHAR(256),
+    `limit_burst`   VARCHAR(256),
     PRIMARY KEY(`id`)
 );
