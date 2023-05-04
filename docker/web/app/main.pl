@@ -27,4 +27,12 @@ get 'game' => sub {
     $self->render('game', answer_id => game_manager::set_answer());
 };
 
+post 'game_answer' => sub {
+    my $self = shift;
+    my $params = $self->req->params->to_hash;
+    my $id = $params->{'id'};
+    chomp $id;
+    $self->render(json => db_manager::get_answer($id)->[0]);
+};
+
 app->start;

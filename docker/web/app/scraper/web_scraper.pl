@@ -32,13 +32,13 @@ foreach my $id (@ids) {
         process 'dd', 'dd[]', => 'TEXT';
         process 'img.type-img', 'type' => '@src';
         process 'img.attribute-img', 'attribute' => '@src';
-        process 'dl.detail__skill--txt', 'dl[]' => 'TEXT';
+        process 'div.detail__skill', 'div[]' => 'TEXT';
     };
     $res = $scraper->scrape($uri);
     my %data = ( 'id' => $id );
     my $dd_array = $res->{'dd'};
     my $src_array = $res->{'src'};
-    my $dl_array = $res->{'dl'};
+    my $dev_array = $res->{'div'};
     $data{'name'} = $enc->encode($res->{'name'}->[0]);
     $data{'rarity'} = $enc->encode($res->{'rarity'}->[0]);
     $data{'type'} = $enc->encode($res->{'type'});
@@ -53,15 +53,17 @@ foreach my $id (@ids) {
         $data{'position'} = $value if($value =~ /^(地上|空中)$/);
         $data{'sex'} = $value if($value =~ /^(♂|♀)$/);
     }
-    foreach my $value (@{$dl_array}) {
+
+    foreach my $value (@{$dev_array}) {
         $value = $enc->encode($value);
-        if($value =~ /^名前(.*?)効果.*$/) {
-            #$value =~ s/^名前(.*?)効果.*$/$1/;
+        if($value =~ /^●アクションスキル.*?名前(.*?)効果.*$/) {
             $data{'action_name'} = $1;
-            last;
         }
+        if($value =~ /^●リミットバースト名前(.*?)効果.*$/) {
+            $data{'limit_burst'} = $1;
+            last;
+        }     
     }
-    
     my $sql = 'INSERT INTO valdle_db.character VALUES ( ';
     $sql .= $data{'id'} . ", ";
     $sql .= "'" . $data{'rarity'} . "', ";
@@ -80,7 +82,8 @@ foreach my $id (@ids) {
     } else {
         $sql .= "' - ', ";
     }
-    $sql .= "'" . $data{'action_name'} . "' );";
+    $sql .= "'" . $data{'action_name'} . "', ";
+    $sql .= "'" . $data{'limit_burst'} . "');";
     print $sql . "\n";
 }
 exit;

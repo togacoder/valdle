@@ -17,6 +17,9 @@
         <th>種族</th>
         <th>性別</th>
         <th>地上/空中</th>
+        <th>アクションスキル・属性</th>
+        <th>アクションスキル・名前</th>
+        <th>リミットバースト</th>
     </tr>
     <% foreach my $character (@{$characters}) { %>
     <tr>
@@ -27,6 +30,9 @@
         <td><%= decode('utf8', $character->[5]) %></td>
         <td><%= decode('utf8', $character->[6]) %></td>
         <td><%= decode('utf8', $character->[7]) %></td>
+        <td><img src="<%= $character->[8] %>"></td>
+        <td><%= decode('utf8', $character->[9]) %></td>
+        <td><%= decode('utf8', $character->[10]) %></td>
         </tr>
     <% } %>
 </table>

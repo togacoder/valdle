@@ -37,4 +37,16 @@ sub get_all_id {
     $dbh->disconnect;
     return $arrayref;
 }
+
+sub get_answer($id) {
+    my $dbh = &init();
+    my $sth = $dbh->prepare('SELECT * FROM valdle_db.character WHERE id = ?');
+    $sth->execute($id);
+    my $arrayref = $sth->fetchall_arrayref;
+    $sth->finish;
+    undef $sth;
+    $dbh->disconnect;
+    return $arrayref;
+}
+
 1;
