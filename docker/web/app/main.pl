@@ -42,10 +42,34 @@ get 'list' => sub {
 
 get 'game' => sub {
     my $self = shift;
-    $self->render('game', answer_id => game_manager::set_answer());
+    $self->render('game', 
+        answer_id => game_manager::set_answer(), 
+        name_list => game_manager::get_name_list()
+    );
 };
 
-get 'game_answer' => sub {
+get 'send_answer' => sub {
+    my $self = shift;
+    my $params = $self->req->params->to_hash;
+    my $name = $params->{'name'};
+    my $id = $params->{'id'};
+    my $data = db_manager::get_answer_name($name)->[0];
+    my $ans = db_manager::get_answer($id)->[0];
+    my @color_array; 
+    for(my $i = 0; $i < 11; $i++) {
+        if($data->[$i] eq $ans->[$i]) {
+            push(@color_array, 'GREEN');
+        } else {
+            push(@color_array, 'RED');
+        }
+    }
+
+    my $text = join(',', (@{$data}, @color_array));
+    $text = decode('utf8', $text);
+    $self->render(text => $text);
+};
+
+get 'get_answer' => sub {
     my $self = shift;
     my $params = $self->req->params->to_hash;
     my $id = $params->{'id'};
@@ -54,12 +78,6 @@ get 'game_answer' => sub {
     my $text = join(',', @{$data});
     $text = decode('utf8', $text);
     $self->render(text => $text);
-};
-
-get 'test' => sub {
-    my $self = shift;
-    my $test = 'こんにちは';
-    $self->render(text => $test);
 };
 
 app->start;
