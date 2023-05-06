@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>list</title>
+</head>
+<body>
+<a href="index">top</a>
+<h1>list</h1>
+<table border = 1>
+    <tr>
+        <th>初期レアリティ</th>
+        <th>名前</th>
+        <th>タイプ</th>
+        <th>通常攻撃</th>
+        <th>種族</th>
+        <th>性別</th>
+        <th>地上/空中</th>
+        <th>アクションスキル・属性</th>
+        <th>アクションスキル・名前</th>
+        <th>リミットバースト</th>
+    </tr>
+    <% foreach my $character (@{$characters_array}) { %>
+    <tr>
+        <td><%= $character->[1] %></td>
+        <td><%= $character->[2] %></td>
+        <td><img src="<%= $character->[3] %>"></td>
+        <td><%= $character->[4] %></td>
+        <td><%= $character->[5] %></td>
+        <td><%= $character->[6] %></td>
+        <td><%= $character->[7] %></td>
+        <td><img src="<%= $character->[8] %>"></td>
+        <td><%= $character->[9] %></td>
+        <td><%= $character->[10] %></td>
+        </tr>
+    <% } %>
+</table>
+</body>
+</html>
