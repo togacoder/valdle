@@ -1,10 +1,67 @@
+<script>
+    const GREEN = '#7fffd4';
+</script>
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8"/>
     <title>valdle</title>
 </head>
 <body>
-    <h1>game</h1>
+<a href="index">top</a>
+<h1>game</h1>
+<table border="1" id="ans_table">
+    <tr>
+        <th>初期レアリティ</th>
+        <th>名前</th>
+        <th>タイプ</th>
+        <th>通常攻撃</th>
+        <th>種族</th>
+        <th>性別</th>
+        <th>地上/空中</th>
+        <th>アクションスキル・属性</th>
+        <th>アクションスキル・名前</th>
+        <th>リミットバースト</th>
+    </tr>
+</table>
+
+<form id="get_answer">
+    <button id="get_answer_button" type="button">諦めて答えを見る。</button>
+</form>
+<script>
+    console.log(<%= $answer_id %>);
+    function get_answer_text() {
+        const url = './game_answer?id=' + <%= $answer_id %>;
+        const options = {method: 'GET'};
+        return fetch(url, options).then(response => response.text());
+    }
+
+    async function get_answer() {
+        const answer_text = await get_answer_text();
+        const answer_data = answer_text.split(',');
+        const ans_table = document.getElementById("ans_table");
+        const get_answer_button = document.getElementById("get_answer_button");
+        get_answer_button.disabled = "disabled";
+
+        var ans_tr = ans_table.tBodies[0].insertRow(-1);
+        for(let i = 1 ; i < 11; i++) {
+            let ans_td = ans_tr.insertCell(i - 1);
+            if(i == 3 || i == 8) {
+                let img_element = document.createElement('img');
+                img_element.src = answer_data[i];
+                ans_td.appendChild(img_element); 
+            } else {
+                ans_td.appendChild(document.createTextNode(answer_data[i]));
+            }
+            ans_td.style.backgroundColor = GREEN;
+        }
+    }
+
+    document.getElementById('get_answer_button')
+    .addEventListener('click', () => {
+        get_answer()
+    })
+
+</script>
 </body>
 </html>
