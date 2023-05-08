@@ -8,6 +8,7 @@ services:
     ports:
       - 80:3000
     tty: true
+    command: morbo /app/main.pl
   db:
     build: ./docker/db/.
     container_name: db
