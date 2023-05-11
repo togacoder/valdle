@@ -1,6 +1,5 @@
 <script>
-    const GREEN = '#7fffd4';
-    const RED = '#ff4500';
+    let count = 0;
 </script>
 <!DOCTYPE html>
 <html lang="ja">
@@ -37,6 +36,7 @@
 </form>
 <script>
     function send_answer_text() {
+        count++;
         const send_name = document.getElementById('name');
         const url = './send_answer?name=' + encodeURIComponent(send_name.value) + '&id=' + <%= $answer_id %>;
         send_name.value = '';
@@ -66,6 +66,7 @@
             get_answer_button.disabled = "disabled";
             const send_answer_button = document.getElementById("send_answer_button");
             send_answer_button.disabled = "disabled";
+            alert(`おめでとう。あなたは${count}回で答えに辿り着きました。`);
         }
     }
 
@@ -104,7 +105,7 @@
             } else {
                 ans_td.appendChild(document.createTextNode(answer_data[i]));
             }
-            ans_td.style.backgroundColor = GREEN;
+            ans_td.style.backgroundColor = 'GREEN';
         }
     }
 
