@@ -1,5 +1,9 @@
 <script>
     let count = 0;
+    const answer_list = [];
+    % foreach my $value (@{$name_list}) {
+        answer_list.push('<%= $value %>');
+    % }
 </script>
 <!DOCTYPE html>
 <html lang="ja">
@@ -36,12 +40,25 @@
 </form>
 <script>
     function send_answer_text() {
-        count++;
         const send_name = document.getElementById('name');
         const url = './send_answer?name=' + encodeURIComponent(send_name.value) + '&id=' + <%= $answer_id %>;
+        
+        let flag = 0;
+        for(let i = 0; i < answer_list.length; i++) {
+            if(answer_list[i] == send_name.value) {
+                flag = 1;
+                break;
+            }
+        }
+        
         send_name.value = '';
         const options = {method: 'GET'};
-        return fetch(url, options).then(response => response.text());
+        if(flag) {
+            count++;
+            return fetch(url, options).then(response => response.text());
+        } else {
+            alert('正しい回答を選択してください。');
+        }
     }
 
     async function send_answer() {
