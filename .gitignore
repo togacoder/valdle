@@ -1,2 +1,2 @@
-./dokcer/db/data/*
+dokcer/db/data/*
 docker/web/app/hypnotoad.pid
